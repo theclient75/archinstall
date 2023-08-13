@@ -18,8 +18,9 @@ echo ""
 # Enter partition names
 # ------------------------------------------------------
 lsblk
-read -p "Enter the name of the EFI partition (eg. sda1): " sda1
-read -p "Enter the name of the ROOT partition (eg. sda2): " sda2
+read -p "Enter the name of the EFI partition (eg. sda1): " efi
+read -p "Enter the name of the root partition (eg. sda2): " root
+read -p "Choose your processor. Type amd or intel: " processor
 # read -p "Enter the name of the VM partition (keep it empty if not required): " sda3
 
 # ------------------------------------------------------
@@ -30,14 +31,14 @@ timedatectl set-ntp true
 # ------------------------------------------------------
 # Format partitions
 # ------------------------------------------------------
-mkfs.fat -F 32 /dev/$sda1;
-mkfs.btrfs -f /dev/$sda2
+mkfs.fat -F 32 /dev/$efi;
+mkfs.btrfs -f /dev/$root
 # mkfs.btrfs -f /dev/$sda3
 
 # ------------------------------------------------------
 # Mount points for btrfs
 # ------------------------------------------------------
-mount /dev/$sda2 /mnt
+mount /dev/$root /mnt
 btrfs su cr /mnt/@
 btrfs su cr /mnt/@cache
 btrfs su cr /mnt/@home
@@ -45,20 +46,20 @@ btrfs su cr /mnt/@snapshots
 btrfs su cr /mnt/@log
 umount /mnt
 
-mount -o compress=zstd:1,noatime,subvol=@ /dev/$sda2 /mnt
+mount -o compress=zstd:1,noatime,subvol=@ /dev/$root /mnt
 mkdir -p /mnt/{boot/efi,home,.snapshots,var/{cache,log}}
-mount -o compress=zstd:1,noatime,subvol=@cache /dev/$sda2 /mnt/var/cache
-mount -o compress=zstd:1,noatime,subvol=@home /dev/$sda2 /mnt/home
-mount -o compress=zstd:1,noatime,subvol=@log /dev/$sda2 /mnt/var/log
-mount -o compress=zstd:1,noatime,subvol=@snapshots /dev/$sda2 /mnt/.snapshots
-mount /dev/$sda1 /mnt/boot/efi
+mount -o compress=zstd:1,noatime,subvol=@cache /dev/$root /mnt/var/cache
+mount -o compress=zstd:1,noatime,subvol=@home /dev/$root /mnt/home
+mount -o compress=zstd:1,noatime,subvol=@log /dev/$root /mnt/var/log
+mount -o compress=zstd:1,noatime,subvol=@snapshots /dev/$root /mnt/.snapshots
+mount /dev/$efi /mnt/boot/efi
 # mkdir /mnt/vm
 # mount /dev/$sda3 /mnt/vm
 
 # ------------------------------------------------------
 # Install base packages
 # ------------------------------------------------------
-pacstrap -K /mnt base base-devel git linux linux-firmware vim openssh reflector rsync amd-ucode
+pacstrap -K /mnt base base-devel git linux linux-firmware vim openssh reflector rsync $processor\-ucode
 
 # ------------------------------------------------------
 # Generate fstab
