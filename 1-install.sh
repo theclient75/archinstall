@@ -18,7 +18,7 @@ lsblk
 read -p "Enter the name of your unformatted disk: " disk
 sgdisk --zap-all /dev/$disk
 sgdisk -o /dev/$disk
-sgdisk -n 1:0:+300M -t 1:ef00 -c 1:"EFI" /dev/$disk
+sgdisk -n 1:0:+512M -t 1:ef00 -c 1:"EFI" /dev/$disk
 sgdisk -n 2:0:0     -t 2:8300 -c 2:"ROOT" /dev/$disk
 # ------------------------------------------------------
 # Enter partition names
