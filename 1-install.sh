@@ -9,18 +9,24 @@ echo ""
 echo "by Stephan Raabe (2023)"
 echo "-----------------------------------------------------"
 echo ""
-echo "Important: Please make sure that you have followed the "
-echo "manual steps in the README to partition the harddisc!"
-echo "Warning: Run this script at your own risk."
+echo "This script will erase your hard disk and partition it with "
+echo "this layout: 300 Mib efi boot, the rest for root. "
+echo "Warning: Run this script at your own risk!"
 echo ""
 
+lsblk
+read -p "Enter the name of your unformatted disk: " disk
+sgdisk --zap-all /dev/$disk
+sgdisk -o /dev/$disk
+sgdisk -n 1:0:+300M -t 1:ef00 -c 1:"EFI" /dev/$disk
+sgdisk -n 2:0:0     -t 2:8300 -c 2:"ROOT" /dev/$disk
 # ------------------------------------------------------
 # Enter partition names
 # ------------------------------------------------------
 lsblk
 read -p "Enter the name of the EFI partition (eg. sda1): " efi
 read -p "Enter the name of the root partition (eg. sda2): " root
-read -p "Choose your processor. Type amd or intel: " processor
+read -p "Choose your processor (amd or intel): " processor
 # read -p "Enter the name of the VM partition (keep it empty if not required): " sda3
 
 # ------------------------------------------------------
