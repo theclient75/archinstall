@@ -31,7 +31,7 @@ ping -c4 www.archlinux.org
 lsblk
 
 # Create partitions
-gdisk /dev/sda
+# The 1-install.sh script creates the following partitions:
 # Partition 1: +512M ef00 (for EFI)
 # Partition 2: Available space 8300 (for Linux filesystem)
 # (Optional Partition 3 for Virtual Machines)

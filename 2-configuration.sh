@@ -12,7 +12,7 @@ clear
 keyboardlayout="de-latin1"
 zoneinfo="Europe/Berlin"
 hostname="arch"
-username="raabe"
+read -p "Choose a username: " username
 
 # ------------------------------------------------------
 # Set System Time
