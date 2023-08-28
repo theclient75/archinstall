@@ -68,13 +68,6 @@ echo "Set root password"
 passwd root
 
 # ------------------------------------------------------
-# Add User
-# ------------------------------------------------------
-#echo "Add user $username"
-#useradd -m -G wheel $username
-#passwd $username
-
-# ------------------------------------------------------
 # Enable Services
 # ------------------------------------------------------
 systemctl enable NetworkManager
@@ -87,9 +80,18 @@ systemctl enable fstrim.timer
 systemctl enable firewalld
 systemctl enable acpid
 systemctl enable systemd-homed
+systemctl restart --now systemd-homed
+# ------------------------------------------------------
+# Add User
+# ------------------------------------------------------
+#echo "Add user $username"
+#useradd -m -G wheel $username
+#passwd $username
+homectl create michael --uid=17672 --luks-discard=on --language=en_US.UTF-8 --member-of=wheel,audio,video,disk,storage,optical,scanner,rfkill,input,libvirt,kvm
+
 
 # ------------------------------------------------------
-# Grub installation
+# Systemd-boot installation
 # ------------------------------------------------------
 #grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB --removable
 #grub-mkconfig -o /boot/grub/grub.cfg
