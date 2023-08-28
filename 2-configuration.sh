@@ -80,14 +80,14 @@ systemctl enable fstrim.timer
 systemctl enable firewalld
 systemctl enable acpid
 systemctl enable systemd-homed
-systemctl restart --now systemd-homed
+
 # ------------------------------------------------------
 # Add User
 # ------------------------------------------------------
 #echo "Add user $username"
 #useradd -m -G wheel $username
 #passwd $username
-homectl create michael --uid=17672 --luks-discard=on --language=en_US.UTF-8 --member-of=wheel,audio,video,disk,storage,optical,scanner,rfkill,input,libvirt,kvm
+# homectl create michael --uid=17672 --luks-discard=on --language=en_US.UTF-8 --member-of=wheel,audio,video,disk,storage,optical,scanner,rfkill,input,libvirt,kvm
 
 
 # ------------------------------------------------------
@@ -99,13 +99,13 @@ bootctl --path=/boot install
 
 echo "default arch
 timeout 1
-editor 0" > /boot/loader/loader.conf
+editor 0" > /mnt/boot/loader/loader.conf
 
 echo "title ArchLinux
 linux /vmlinuz-linux
 initrd /intel-ucode.img
 initrd /initramfs-linux.img
-options root=/dev/disk/by-label/ROOT rootflags=subvol=@ quiet rw rootfstype=btrfs" > /boot/loader/entries/arch.conf
+options root=/dev/disk/by-label/ROOT rootflags=subvol=@ quiet rw rootfstype=btrfs" > /mnt/boot/loader/entries/arch.conf
 
 # ------------------------------------------------------
 # Add btrfs and setfont to mkinitcpio
