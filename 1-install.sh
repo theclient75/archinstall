@@ -15,7 +15,7 @@ echo "Warning: Run this script at your own risk!"
 echo ""
 
 lsblk
-read -p "Enter the name of your unformatted disk: " disk
+read -p "Enter the name of your disk: " disk
 sgdisk --zap-all /dev/$disk
 sgdisk -o /dev/$disk
 sgdisk -n 1:0:+512M -t 1:ef00 -c 1:"EFI" /dev/$disk
@@ -25,8 +25,8 @@ sgdisk -n 2:0:0     -t 2:8300 -c 2:"ROOT" /dev/$disk
 # ------------------------------------------------------
 lsblk
 read -p "Enter the name of the EFI partition (eg. sda1): " efi
-read -p "Enter the name of the root partition (eg. sda2): " root
-read -p "Choose your processor (amd or intel): " processor
+read -p "Enter the name of the ROOT partition (eg. sda2): " root
+
 # read -p "Enter the name of the VM partition (keep it empty if not required): " sda3
 
 # ------------------------------------------------------
@@ -65,7 +65,7 @@ mount /dev/$efi /mnt/boot/efi
 # ------------------------------------------------------
 # Install base packages
 # ------------------------------------------------------
-pacstrap -K /mnt base base-devel git linux linux-firmware vim openssh reflector rsync $processor\-ucode
+pacstrap -K /mnt base base-devel git linux linux-firmware vim openssh reflector rsync
 
 # ------------------------------------------------------
 # Generate fstab
