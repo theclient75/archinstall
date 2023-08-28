@@ -99,13 +99,13 @@ bootctl --path=/boot install
 
 echo "default arch
 timeout 1
-editor 0" > /mnt/boot/loader/loader.conf
+editor 0" > /boot/loader/loader.conf
 
 echo "title ArchLinux
 linux /vmlinuz-linux
 initrd /intel-ucode.img
 initrd /initramfs-linux.img
-options root=/dev/disk/by-label/ROOT rootflags=subvol=@ quiet rw rootfstype=btrfs" > /mnt/boot/loader/entries/arch.conf
+options root=/dev/disk/by-label/ROOT rootflags=subvol=@ quiet rw rootfstype=btrfs" > /boot/loader/entries/arch.conf
 
 # ------------------------------------------------------
 # Add btrfs and setfont to mkinitcpio

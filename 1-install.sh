@@ -58,7 +58,7 @@ mount -o compress=zstd:1,noatime,subvol=@cache /dev/$root /mnt/var/cache
 mount -o compress=zstd:1,noatime,subvol=@home /dev/$root /mnt/home
 mount -o compress=zstd:1,noatime,subvol=@log /dev/$root /mnt/var/log
 mount -o compress=zstd:1,noatime,subvol=@snapshots /dev/$root /mnt/.snapshots
-mount /dev/$efi /mnt/boot/efi
+mount /dev/$efi /mnt/boot
 # mkdir /mnt/vm
 # mount /dev/$sda3 /mnt/vm
 
